@@ -1,0 +1,10 @@
+ros-melodic-health-metric-collector (2.0.0-0stretch) stretch; urgency=high
+
+  * Update to use non-legacy ParameterReader API (#7 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/7>)
+    * Update to use non-legacy ParameterReader API
+    * increment package version
+  * Contributors: M. M
+
+ -- AWS RoboMaker <ros-contributions@amazon.com>  Wed, 20 Mar 2019 00:00:00 -0000
+
+
