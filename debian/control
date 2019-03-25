@@ -1,0 +1,12 @@
+Source: ros-kinetic-health-metric-collector
+Section: misc
+Priority: extra
+Maintainer: AWS RoboMaker <ros-contributions@amazon.com>
+Build-Depends: debhelper (>= 9.0.0), google-mock, ros-kinetic-aws-common, ros-kinetic-aws-ros1-common, ros-kinetic-catkin, ros-kinetic-message-generation, ros-kinetic-ros-monitoring-msgs, ros-kinetic-roscpp, ros-kinetic-rospy, ros-kinetic-rostest, ros-kinetic-std-msgs
+Homepage: http://wiki.ros.org/health_metric_collector
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-health-metric-collector
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-aws-common, ros-kinetic-aws-ros1-common, ros-kinetic-message-generation, ros-kinetic-message-runtime, ros-kinetic-ros-monitoring-msgs, ros-kinetic-roscpp, ros-kinetic-rospy, ros-kinetic-std-msgs
+Description: The health_metric_collector package
