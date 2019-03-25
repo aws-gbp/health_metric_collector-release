@@ -1,3 +1,26 @@
+## health_metric_collector (kinetic) - 2.0.0-1
+
+The packages in the `health_metric_collector` repository were released into the `kinetic` distro by running `/usr/local/bin/bloom-release health_metric_collector --track kinetic --rosdistro kinetic -e` on `Mon, 25 Mar 2019 19:14:44 -0000`
+
+The `health_metric_collector` package was released.
+
+Version of package(s) in repository `health_metric_collector`:
+
+- upstream repository: https://github.com/aws-robotics/health-metrics-collector-ros1.git
+- release repository: https://github.com/aws-gbp/health_metric_collector-release.git
+- rosdistro version: `1.0.0-1`
+- old version: `2.0.0-0`
+- new version: `2.0.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.7.2`
+- catkin_pkg version: `0.4.9`
+- rosdep version: `0.15.1`
+- rosdistro version: `0.7.0`
+- vcstools version: `0.1.40`
+
+
 ## health_metric_collector (melodic) - 2.0.0-0
 
 The packages in the `health_metric_collector` repository were released into the `melodic` distro by running `/usr/local/bin/bloom-release health_metric_collector --track melodic --rosdistro melodic -e` on `Wed, 20 Mar 2019 01:50:01 -0000`
