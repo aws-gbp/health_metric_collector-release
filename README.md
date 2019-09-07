@@ -1,3 +1,26 @@
+## health_metric_collector (dashing) - 3.0.0-1
+
+The packages in the `health_metric_collector` repository were released into the `dashing` distro by running `/home/ANT.AMAZON.COM/miaofei/.local/bin/bloom-release health_metric_collector --track dashing --rosdistro dashing -e` on `Sat, 07 Sep 2019 00:01:44 -0000`
+
+The `health_metric_collector` package was released.
+
+Version of package(s) in repository `health_metric_collector`:
+
+- upstream repository: https://github.com/aws-robotics/health-metrics-collector-ros2.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `3.0.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.8.0`
+- catkin_pkg version: `0.4.13`
+- rosdep version: `0.15.2`
+- rosdistro version: `0.7.4`
+- vcstools version: `0.1.42`
+
+
 ## health_metric_collector (melodic) - 2.0.1-1
 
 The packages in the `health_metric_collector` repository were released into the `melodic` distro by running `/usr/bin/bloom-release health_metric_collector --track melodic --rosdistro melodic -e` on `Thu, 01 Aug 2019 20:40:31 -0000`
