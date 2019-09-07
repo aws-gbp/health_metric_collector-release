@@ -15,13 +15,12 @@
 
 #include <health_metric_collector/cpu_metric_collector.h>
 #include <health_metric_collector/cpu_stats.h>
-#include <ros_monitoring_msgs/MetricData.h>
+#include <ros_monitoring_msgs/msg/metric_data.hpp>
 
 #include <chrono>
 #include <thread>
 
-using namespace ros_monitoring_msgs;
-
+using namespace ros_monitoring_msgs::msg;
 
 #define BASE_METRIC_NAME "cpu_usage_"
 
@@ -54,10 +53,10 @@ void CPUMetricCollector::CollectCpuUsage(const std::vector<CPUData> & entries1,
     const float total_time = active_time + idle_time;
     const float usage = 100.f * active_time / total_time;
 
-    ros_monitoring_msgs::MetricData md = mgr_.CreateMetric();
+    MetricData md = mgr_->CreateMetric();
     md.metric_name = BASE_METRIC_NAME + entries1[i].cpu;
     md.unit = MetricData::UNIT_PERCENTAGE;
     md.value = usage;
-    mgr_.AddMetric(md);
+    mgr_->AddMetric(md);
   }
 }

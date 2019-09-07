@@ -14,14 +14,13 @@
  */
 
 #include <health_metric_collector/sys_info_collector.h>
-#include <ros_monitoring_msgs/MetricData.h>
+#include <ros_monitoring_msgs/msg/metric_data.hpp>
 #include <sys/sysinfo.h>
 
 #include <fstream>
 #include <iostream>
 
-using namespace ros_monitoring_msgs;
-
+using namespace ros_monitoring_msgs::msg;
 
 #define MEGA (1000000)
 
@@ -43,9 +42,9 @@ void SysInfoCollector::Collect()
 void SysInfoCollector::AddMetric(const std::string & name, const double value,
                                  const std::string & unit)
 {
-  ros_monitoring_msgs::MetricData md = mgr_.CreateMetric();
+  MetricData md = mgr_->CreateMetric();
   md.metric_name = name;
   md.unit = unit;
   md.value = value;
-  mgr_.AddMetric(md);
+  mgr_->AddMetric(md);
 }

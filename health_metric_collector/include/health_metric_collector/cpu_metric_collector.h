@@ -32,7 +32,7 @@ public:
    *
    * @param m metric manager which creates and aggregates metrics.
    */
-  CPUMetricCollector(ros_monitoring_msgs::MetricManagerInterface & m)
+  CPUMetricCollector(std::shared_ptr<MetricManagerInterface> m)
     : MetricCollectorInterface(m) {}
 
   /**

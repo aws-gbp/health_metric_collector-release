@@ -1,98 +1,108 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
+
 project(health_metric_collector)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-set(CMAKE_CXX_STANDARD 14)
 
-## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS
-  ros_monitoring_msgs
-  roscpp
-  rospy
-  std_msgs
-  message_generation
-  aws_common
-  aws_ros1_common
-)
+# Default to C++14
+if (NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif ()
 
-###################################
-## catkin specific configuration ##
-###################################
-catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
-)
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif ()
+
+
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_gmock REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(aws_common REQUIRED)
+find_package(aws_ros2_common REQUIRED)
+find_package(ros_monitoring_msgs REQUIRED)
+
+add_definitions(-DUSE_IMPORT_EXPORT)
+
+set(HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET ${PROJECT_NAME}_lib)
 
 ###########
 ## Build ##
 ###########
 
-## Specify additional locations of header files
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
+        include
+        ${rclcpp_INCLUDE_DIRS}
+        ${aws_ros2_common_INCLUDE_DIRS}
+        ${AWSSDK_INCLUDE_DIRS}
+        ${aws_common_INCLUDE_DIRS}
+        ${ros_monitoring_msgs_INCLUDE_DIRS}
 )
 
-set(ALL_SRC_FILES src/cpu_data.cpp src/cpu_stats.cpp src/metric_manager.cpp src/cpu_metric_collector.cpp src/sys_info_collector.cpp)
-add_library(collector_lib ${ALL_SRC_FILES})
+add_library(${HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET}
+        src/cpu_data.cpp
+        src/cpu_metric_collector.cpp
+        src/cpu_stats.cpp
+        src/metric_manager.cpp
+        src/sys_info_collector.cpp
+        )
 
-add_executable(health_metric_collector src/collector.cpp)
-target_link_libraries(health_metric_collector ${catkin_LIBRARIES} collector_lib)
+ament_target_dependencies(${HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET}
+        rclcpp
+        aws_common
+        aws_ros2_common
+        ros_monitoring_msgs
+        rosidl_typesupport_cpp
+        )
 
-install(DIRECTORY config launch
-        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+add_executable(${PROJECT_NAME} src/collector.cpp)
 
-install(DIRECTORY include/${PROJECT_NAME}/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+set(LIB_DEPS
+        ${rclcpp_LIBRARIES}
+        ${aws_common_LIBRARIES}
+        ${aws_ros2_common_LIBRARIES}
+        ${ros_monitoring_msgs_LIBRARIES}
+)
+
+target_link_libraries(${PROJECT_NAME} ${LIB_DEPS})
+
+ament_target_dependencies(${PROJECT_NAME} ${HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET})
+
+target_link_libraries(${PROJECT_NAME} ${HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET})
+
+#############
+## Install ##
+#############
+
+## Mark executables and/or libraries for installation
+install(TARGETS ${PROJECT_NAME} ${HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET}
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        # According to https://answers.ros.org/question/280127/ros2-ros2-run-package-executable-cannot-find-executable/
+        # executables are now being installed to the library directory under project name
+        RUNTIME DESTINATION lib/${PROJECT_NAME}
+        )
+
+## Mark cpp header files for installation
+install(
+        DIRECTORY include/
+        DESTINATION include
         FILES_MATCHING PATTERN "*.h"
-        PATTERN ".svn" EXCLUDE)
-
-install(TARGETS collector_lib DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
-
-install(TARGETS health_metric_collector
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+### Mark other files for installation (e.g. launch and bag files, etc.)
+install(DIRECTORY launch/ DESTINATION share/${PROJECT_NAME}/launch)
+install(DIRECTORY config/ DESTINATION share/${PROJECT_NAME}/config)
+
 #############
-## Testing ##
+## Tests ##
 #############
 
-if(CATKIN_ENABLE_TESTING)
-  find_package(rostest REQUIRED)
-  find_package(GMock QUIET)
-  if(GMOCK_FOUND)
-    add_rostest_gmock(test_health_metric_collector
-      test/test_health_metric_collector.test
-      test/health_metric_collector_test.cpp
-    )
-    target_include_directories(test_health_metric_collector
-      PRIVATE include
-      ${catkin_INCLUDE_DIRS}
-      ${GMOCK_INCLUDE_DIRS}
-    )
-    target_link_libraries(test_health_metric_collector
-      collector_lib
-      ${catkin_LIBRARIES}
-      ${GMOCK_BOTH_LIBRARIES}
-    )
-  else()
-    include_directories(/usr/include/gmock /usr/src/gmock)
-    add_library(${PROJECT_NAME}_libgmock SHARED /usr/src/gmock/src/gmock-all.cc)
+ament_add_gmock(test_health_metric_collector
+  test/health_metric_collector_test.cpp)
+target_include_directories(test_health_metric_collector
+  PRIVATE include)
+target_link_libraries(test_health_metric_collector
+        ${HEALTH_METRIC_COLLECTOR_LIBRARY_TARGET}
+        ${LIB_DEPS})
 
-    add_rostest_gtest(test_health_metric_collector
-      test/test_health_metric_collector.test
-      test/health_metric_collector_test.cpp
-    )
-    target_include_directories(test_health_metric_collector
-      PRIVATE include
-      ${catkin_INCLUDE_DIRS}
-    )
-    target_link_libraries(test_health_metric_collector
-      collector_lib
-      ${catkin_LIBRARIES}
-      ${PROJECT_NAME}_libgmock
-    )
-  endif()
-endif()
+
+ament_package()

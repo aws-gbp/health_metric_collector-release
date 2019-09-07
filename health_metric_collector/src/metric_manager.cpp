@@ -14,33 +14,35 @@
  */
 
 #include <health_metric_collector/metric_manager.h>
-#include <ros_monitoring_msgs/MetricDimension.h>
+#include <ros_monitoring_msgs/msg/metric_dimension.hpp>
 
-using namespace ros_monitoring_msgs;
+#include <chrono>
+
+using namespace ros_monitoring_msgs::msg;
 
 
-MetricData ros_monitoring_msgs::MetricManager::CreateMetric() const
+MetricData MetricManager::CreateMetric() const
 {
   MetricData md;
-  md.header.stamp = ros::Time(ros::WallTime::now().toSec());
+  // FIXME use builtin_interfaces.msg.time and node->now()
+  md.header.stamp = node_->now();
   md.time_stamp = md.header.stamp;
   md.dimensions = dimensions_.dimensions;
   return md;
 }
 
-void ros_monitoring_msgs::MetricManager::AddDimension(const std::string & name,
-                                                      const std::string & value)
+void MetricManager::AddDimension(const std::string & name, const std::string & value)
 {
-  ros_monitoring_msgs::MetricDimension dim;
+  MetricDimension dim;
   dim.name = name;
   dim.value = value;
   dimensions_.dimensions.push_back(dim);
 }
 
-void ros_monitoring_msgs::MetricManager::AddMetric(MetricData md) { mlist_.metrics.push_back(md); }
+void MetricManager::AddMetric(MetricData md) { mlist_.metrics.push_back(md); }
 
-void ros_monitoring_msgs::MetricManager::Publish()
+void MetricManager::Publish()
 {
-  publisher_.publish(mlist_);
+  publisher_->publish(mlist_);
   mlist_.metrics.clear();
 }

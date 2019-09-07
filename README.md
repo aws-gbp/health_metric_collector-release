@@ -1,5 +1,6 @@
 # health_metric_collector
 
+**Note: this repository is under active development. The package provided here is a release candidate; the API may change without notice and no support is provided for it at the moment.**
 
 ## Overview
 This `health_metric_collector` ROS node collects system metrics and publishes them to `/metrics` topic. The `cloudwatch_metrics_collector` node is subscribed to this topic and will publish the metrics to AWS CloudWatch when it is instantiated.
@@ -14,17 +15,14 @@ The source code is released under an [Apache 2.0].
 **Maintainer**: AWS RoboMaker, ros-contributions@amazon.com
 
 ### Supported ROS Distributions
-- Kinetic
-- Melodic
+- Dashing
 
 ### Build status
 * Travis CI:
-    * "master" branch [![Build Status](https://travis-ci.org/aws-robotics/health-metrics-collector-ros1.svg?branch=master)](https://travis-ci.org/aws-robotics/health-metrics-collector-ros1/branches)
-    * "release-latest" branch [![Build Status](https://travis-ci.org/aws-robotics/health-metrics-collector-ros1.svg?branch=release-latest)](https://travis-ci.org/aws-robotics/health-metrics-collector-ros1/branches)
+    * "master" branch [![Build Status](https://travis-ci.org/aws-robotics/health-metrics-collector-ros2.svg?branch=master)](https://travis-ci.org/aws-robotics/health-metrics-collector-ros2/branches)
+    * "release-latest" branch [![Build Status](https://travis-ci.org/aws-robotics/health-metrics-collector-ros2.svg?branch=release-latest)](https://travis-ci.org/aws-robotics/health-metrics-collector-ros2/branches)
 * ROS build farm:
-    * ROS Kinetic @ u16.04 Xenial [![Build Status](http://build.ros.org/job/Kbin_uX64__health_metric_collector__ubuntu_xenial_amd64__binary/badge/icon)](http://build.ros.org/job/Kbin_uX64__health_metric_collector__ubuntu_xenial_amd64__binary)
-    * ROS Melodic @ u18.04 Bionic [![Build Status](http://build.ros.org/job/Mbin_uB64__health_metric_collector__ubuntu_bionic_amd64__binary/badge/icon)](http://build.ros.org/job/Mbin_uB64__health_metric_collector__ubuntu_bionic_amd64__binary)
-
+    * Unreleased
 
 ## Installation
 
@@ -51,7 +49,7 @@ To build from source you'll need to create a new workspace, clone and checkout t
 - Clone the package into the source directory . 
 
         cd ~/ros-workspace/src
-        git clone https://github.com/aws-robotics/health-metrics-collector-ros1.git -b release-latest
+        git clone https://github.com/aws-robotics/health-metrics-collector-ros2.git -b release-latest
 
 - Install dependencies
 
@@ -142,9 +140,9 @@ Please contact the team directly if you would like to request a feature.
 Please report bugs in [Issue Tracker].
 
 
-[`cloudwatch_metrics_collector`]: https://github.com/aws-robotics/cloudwatchmetrics-ros1
+[`cloudwatch_metrics_collector`]: https://github.com/aws-robotics/cloudwatchmetrics-ros2
 [Amazon Web Services (AWS)]: https://aws.amazon.com/
 [Apache 2.0]: https://aws.amazon.com/apache-2-0/
 [AWS Configuration and Credential Files]: https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html
-[Issue Tracker]: https://github.com/aws-robotics/health-metrics-collector-ros1/issues
+[Issue Tracker]: https://github.com/aws-robotics/health-metrics-collector-ros2/issues
 [ROS]: http://www.ros.org

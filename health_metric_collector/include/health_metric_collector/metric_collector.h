@@ -26,7 +26,9 @@ public:
   /**
    * @brief Constructor.
    */
-  MetricCollectorInterface(ros_monitoring_msgs::MetricManagerInterface & m) : mgr_(m) {}
+  MetricCollectorInterface(
+    std::shared_ptr<MetricManagerInterface> mgr
+    ) : mgr_(mgr) {}
 
   /**
    * @brief callback for collecting metrics.
@@ -37,5 +39,5 @@ protected:
   /**
    * @brief creates metric entries and publishes them.
    */
-  ros_monitoring_msgs::MetricManagerInterface & mgr_;
+  std::shared_ptr<MetricManagerInterface> mgr_;
 };
