@@ -1,3 +1,26 @@
+## health_metric_collector (dashing) - 3.0.1-1
+
+The packages in the `health_metric_collector` repository were released into the `dashing` distro by running `/usr/local/bin/bloom-release health_metric_collector --track dashing --rosdistro dashing -e` on `Fri, 20 Sep 2019 06:56:08 -0000`
+
+The `health_metric_collector` package was released.
+
+Version of package(s) in repository `health_metric_collector`:
+
+- upstream repository: https://github.com/aws-robotics/health-metrics-collector-ros2.git
+- release repository: https://github.com/aws-gbp/health_metric_collector-release.git
+- rosdistro version: `3.0.0-1`
+- old version: `3.0.0-1`
+- new version: `3.0.1-1`
+
+Versions of tools used:
+
+- bloom version: `0.8.0`
+- catkin_pkg version: `0.4.13`
+- rosdep version: `0.16.1`
+- rosdistro version: `0.7.4`
+- vcstools version: `0.1.42`
+
+
 ## health_metric_collector (dashing) - 3.0.0-1
 
 The packages in the `health_metric_collector` repository were released into the `dashing` distro by running `/home/ANT.AMAZON.COM/miaofei/.local/bin/bloom-release health_metric_collector --track dashing --rosdistro dashing -e` on `Sat, 07 Sep 2019 00:01:44 -0000`
