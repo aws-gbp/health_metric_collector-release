@@ -30,26 +30,24 @@ public:
    * @param mg the metric manager that publishes collected metrics.
    * @param c a list of metrics collectors.
    */
-  CollectAndPublish(
-    std::shared_ptr<MetricManagerInterface> mg,
-    std::vector<std::shared_ptr<MetricCollectorInterface>> & c
-    ) : mg_(mg), collectors_(c) {}
+  CollectAndPublish(ros_monitoring_msgs::MetricManagerInterface & mg,
+                    const std::vector<MetricCollectorInterface *> & c)
+    : mg_(mg), collectors_(c) {}
 
   /**
    * @brief activates all collectors and then publishes the metrics.
    *
    * @param event time event in which this run occurs.
    */
-  void Publish()
+  void operator()(const ros::TimerEvent & event)
   {
     for (auto c : collectors_) {
       c->Collect();
     }
-    mg_->Publish();
+    mg_.Publish();
   }
 
 private:
-  std::shared_ptr<MetricManagerInterface> mg_;
-  const std::vector<std::shared_ptr<MetricCollectorInterface>> &
-    collectors_;
+  ros_monitoring_msgs::MetricManagerInterface & mg_;
+  const std::vector<MetricCollectorInterface *> & collectors_;
 };

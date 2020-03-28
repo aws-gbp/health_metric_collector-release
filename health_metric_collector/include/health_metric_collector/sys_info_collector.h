@@ -28,7 +28,7 @@
 class SysInfoCollector : public MetricCollectorInterface
 {
 public:
-  SysInfoCollector(std::shared_ptr<MetricManagerInterface> m)
+  SysInfoCollector(ros_monitoring_msgs::MetricManagerInterface & m)
     : MetricCollectorInterface(m) {}
 
   void Collect() override final;

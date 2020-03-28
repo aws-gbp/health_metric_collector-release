@@ -13,24 +13,20 @@
  * permissions and limitations under the License.
  */
 
-#include <rclcpp/rclcpp.hpp>
-
 #include <aws/core/utils/logging/LogMacros.h>
-#include <aws_ros2_common/sdk_utils/ros2_node_parameter_reader.h>
+#include <aws_ros1_common/sdk_utils/ros1_node_parameter_reader.h>
 #include <health_metric_collector/collect_and_publish.h>
 #include <health_metric_collector/cpu_metric_collector.h>
 #include <health_metric_collector/metric_collector.h>
 #include <health_metric_collector/metric_manager.h>
 #include <health_metric_collector/sys_info_collector.h>
-#include <ros_monitoring_msgs/msg/metric_list.hpp>
+#include <ros/ros.h>
+#include <ros_monitoring_msgs/MetricList.h>
 
-#include <chrono>
 #include <vector>
 
-
 using namespace Aws::Client;
-using namespace std::chrono_literals;
-using namespace ros_monitoring_msgs::msg;
+using namespace ros_monitoring_msgs;
 
 
 #define DEFAULT_INTERVAL_SEC 5
@@ -41,20 +37,15 @@ using namespace ros_monitoring_msgs::msg;
 #define HEALTH_CATEGORY "RobotHealth"
 #define DEFAULT_ROBOT_ID "Default_Robot"
 #define DEFAULT_NODE_NAME "health_metric_collector"
+#define INTERVAL_PARAM_NAME "interval"
 #define METRICS_TOPIC_NAME "metrics"
 
 
 int main(int argc, char ** argv)
 {
-  rclcpp::init(argc, argv);
+  ros::init(argc, argv, DEFAULT_NODE_NAME);
 
-  rclcpp::NodeOptions node_options;
-  node_options.allow_undeclared_parameters(true);
-  node_options.automatically_declare_parameters_from_overrides(true);
-
-  auto node = rclcpp::Node::make_shared(DEFAULT_NODE_NAME, std::string(), node_options);
-
-  auto param_reader = std::make_shared<Ros2NodeParameterReader>(node);
+  auto param_reader = std::make_shared<Ros1NodeParameterReader>();
 
   // get interval param
   double interval = DEFAULT_INTERVAL_SEC;
@@ -65,24 +56,27 @@ int main(int argc, char ** argv)
   param_reader->ReadParam(ParameterPath(ROBOT_ID_DIMENSION), robot_id);
 
   // advertise
+  ros::NodeHandle public_nh;
+  ros::Publisher publisher =
+    public_nh.advertise<ros_monitoring_msgs::MetricList>(METRICS_TOPIC_NAME, TOPIC_BUFFER_SIZE);
   AWS_LOG_INFO(__func__, "Starting Health Metric Collector Node...");
-  auto mg = std::make_shared<MetricManager>(node, METRICS_TOPIC_NAME, TOPIC_BUFFER_SIZE);
-  mg->AddDimension(ROBOT_ID_DIMENSION, robot_id);
-  mg->AddDimension(CATEGORY_DIMENSION, HEALTH_CATEGORY);
+  MetricManager mg(publisher);
+  mg.AddDimension(ROBOT_ID_DIMENSION, robot_id);
+  mg.AddDimension(CATEGORY_DIMENSION, HEALTH_CATEGORY);
 
-  std::vector<std::shared_ptr<MetricCollectorInterface>> collectors;
-  auto cpu_collector = std::make_shared<CPUMetricCollector>(mg);
-  collectors.push_back(cpu_collector);
+  std::vector<MetricCollectorInterface *> collectors;
+  CPUMetricCollector cpu_collector(mg);
+  collectors.push_back(&cpu_collector);
 
-  auto sys_collector = std::make_shared<SysInfoCollector>(mg);
-  collectors.push_back(sys_collector);
+  SysInfoCollector sys_collector(mg);
+  collectors.push_back(&sys_collector);
 
   // start metrics collection
   CollectAndPublish f(mg, collectors);
-  auto timer = node->create_wall_timer(1s, [&f]{f.Publish();});
+  ros::NodeHandle nh("~");
+  ros::Timer timer = nh.createTimer(ros::Duration(interval), f);
 
-  rclcpp::spin(node);
-
+  ros::spin();
   AWS_LOG_INFO(__func__, "Shutting down Health Metric Collector Node...");
   return 0;
 }

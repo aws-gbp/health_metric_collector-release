@@ -15,68 +15,67 @@
 
 #pragma once
 
-#include <rclcpp/rclcpp.hpp>
-#include <ros_monitoring_msgs/msg/metric_data.hpp>
-#include <ros_monitoring_msgs/msg/metric_list.hpp>
+#include <ros/ros.h>
+#include <ros_monitoring_msgs/MetricData.h>
+#include <ros_monitoring_msgs/MetricList.h>
 
 #include <vector>
 
 
+namespace ros_monitoring_msgs {
+
 /**
  * @brief Interface for MetricManager.
  */
-class MetricManagerInterface {
+class MetricManagerInterface
+{
 public:
-    /**
-     * @brief add global dimension (applies to all metrics).
-     */
-    virtual void AddDimension(const std::string &name, const std::string &value) = 0;
+  /**
+   * @brief add global dimension (applies to all metrics).
+   */
+  virtual void AddDimension(const std::string & name, const std::string & value) = 0;
 
-    /**
-     * @brief create a metric.
-     */
-    virtual ros_monitoring_msgs::msg::MetricData CreateMetric() const = 0;
+  /**
+   * @brief create a metric.
+   */
+  virtual MetricData CreateMetric() const = 0;
 
-    /**
-     * @brief add a metric to list of metrics to be published.
-     *
-     * @param md a metric.
-     */
-    virtual void AddMetric(ros_monitoring_msgs::msg::MetricData md) = 0;
+  /**
+   * @brief add a metric to list of metrics to be published.
+   *
+   * @param md a metric.
+   */
+  virtual void AddMetric(MetricData md) = 0;
 
-    /**
-     * @brief publishes all metrics and then discards them.
-     */
-    virtual void Publish() = 0;
+  /**
+   * @brief publishes all metrics and then discards them.
+   */
+  virtual void Publish() = 0;
 
-    /** @brief destructor. */
-    virtual ~MetricManagerInterface() {}
+  /** @brief destructor. */
+  virtual ~MetricManagerInterface() {}
 };
 
 /**
  * @brief Create, aggregate and publish metrics to ros topic.
  **/
-class MetricManager : public MetricManagerInterface {
+class MetricManager : public MetricManagerInterface
+{
 public:
-  explicit MetricManager(
-    rclcpp::Node::SharedPtr node,
-    std::string metrics_topic_name,
-    int topic_buffer_size
-    ) :
-      node_(node),
-      publisher_(node->create_publisher<ros_monitoring_msgs::msg::MetricList>(metrics_topic_name, topic_buffer_size)) {}
+  MetricManager(ros::Publisher & p) : publisher_(p) {}
 
-  virtual void AddDimension(const std::string &name, const std::string &value) override final;
+  virtual void AddDimension(const std::string & name, const std::string & value) override final;
 
-  virtual ros_monitoring_msgs::msg::MetricData CreateMetric() const override final;
+  virtual MetricData CreateMetric() const override final;
 
-  virtual void AddMetric(ros_monitoring_msgs::msg::MetricData md) override final;
+  virtual void AddMetric(MetricData md) override final;
 
   virtual void Publish() override final;
 
 private:
-  rclcpp::Node::SharedPtr node_;
-  rclcpp::Publisher<ros_monitoring_msgs::msg::MetricList>::SharedPtr publisher_;
-  ros_monitoring_msgs::msg::MetricList mlist_;
-  ros_monitoring_msgs::msg::MetricData dimensions_;
+  ros::Publisher & publisher_;
+  MetricList mlist_;
+  ros_monitoring_msgs::MetricData dimensions_;
 };
+
+}  // namespace ros_monitoring_msgs

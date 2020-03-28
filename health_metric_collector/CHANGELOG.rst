@@ -2,28 +2,40 @@
 Changelog for package health_metric_collector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.0.1 (2019-09-20)
+2.0.0 (2019-03-20)
 ------------------
-* Bump version to 3.0.1
-* Replacing sample_application.launch with an equivalent launch script
-* Guard test targets with if(BUILD_TESTING)
-* remove changelog for new release
-* Add launch dependencies
-* Update version to 3.0.0 for first ROS2 release (`#5 <https://github.com/aws-robotics/health-metrics-collector-ros2/issues/5>`_)
-  * Update version to 2.0.1 for consistency with health-metrics-collector-ros1
-  * Bumping version to 3.0.0 and upgrading package.xml format to 3
-  * Update changelog
-* Allow undeclared params and add default ones to the yaml config file.
-* Add unit tests (equivalent to the ROS1 version)
-* Remove cmake-build-debug folder
-* Rename package, make launch file ROS1 compatible
-  - Rename package to health_metric_collector, removing the _node suffix
-  to keep this package consistent with all our others (where github repo,
-  folder name and package name are all the same).
-  - Improve launch file to be the same as ROS1 where users can override
-  node_name or config_file.
-* Merge pull request `#2 <https://github.com/aws-robotics/health-metrics-collector-ros2/issues/2>`_ from aws-robotics/namespace-fixup
-  Fixes the namespacing that was mistakenly added for several files during the conversion.
-* Fixes the namespacing that was mistakenly added for several files during the conversion.
-* Adding basic implementation
-* Contributors: AAlon, Avishay Alon, M M, Nick Burek, Tim Robinson, burekn
+* Update to use non-legacy ParameterReader API (`#7 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/7>`_)
+  * Update to use non-legacy ParameterReader API
+  * increment package version
+* Contributors: M. M
+
+2.0.2 (2020-03-28)
+------------------
+* Merge pull request `#25 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/25>`_ from aws-robotics/version_2.0.2
+  Bumpinng package version to match bloom release
+* Bumpinng package version to match bloom release
+* fix collecting of memory metrics data (`#24 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/24>`_)
+* update changelog to be compatible with catkin_generate_changelog (`#21 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/21>`_)
+  Signed-off-by: Miaofei <miaofei@amazon.com>
+* increment patch version (`#20 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/20>`_)
+  Signed-off-by: Miaofei <miaofei@amazon.com>
+* Use standard CMake macros for adding gtest/gmock tests (`#16 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/16>`_)
+  * modify health_metric_collector to use add_rostest_gmock()
+  Signed-off-by: Miaofei <miaofei@amazon.com>
+  * update travis.yml to be compatible with specifying multiple package names
+  Signed-off-by: Miaofei <miaofei@amazon.com>
+* [Master branch] CE pipeline migration (`#12 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/12>`_)
+  * cherry picking Get dependencies from rosdep instead of building from release-v1 to master
+  * cherry picking ce pipeline migration commit from release-v1 to master
+  * untag dependency version
+  * remove cloudwatch_metrics_collector as exec depend
+* Release 2.0.0 (`#9 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/9>`_)
+  * Release 2.0.0
+  * 2.0.0
+* Update to use non-legacy ParameterReader API (`#7 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/7>`_)
+  * Update to use non-legacy ParameterReader API
+  * increment package version
+* Contributors: AAlon, Abby Xu, M. M, Miaofei Mei, Ragha Prasad
+
+1.0.0 (2019-03-20)
+------------------
