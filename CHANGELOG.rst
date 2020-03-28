@@ -9,8 +9,12 @@ Changelog for package health_metric_collector
   * increment package version
 * Contributors: M. M
 
-2.0.1 (2019-08-01)
+2.0.2 (2020-03-28)
 ------------------
+* Merge pull request `#25 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/25>`_ from aws-robotics/version_2.0.2
+  Bumpinng package version to match bloom release
+* Bumpinng package version to match bloom release
+* fix collecting of memory metrics data (`#24 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/24>`_)
 * update changelog to be compatible with catkin_generate_changelog (`#21 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/21>`_)
   Signed-off-by: Miaofei <miaofei@amazon.com>
 * increment patch version (`#20 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/20>`_)
@@ -31,7 +35,7 @@ Changelog for package health_metric_collector
 * Update to use non-legacy ParameterReader API (`#7 <https://github.com/aws-robotics/health-metrics-collector-ros1/issues/7>`_)
   * Update to use non-legacy ParameterReader API
   * increment package version
-* Contributors: AAlon, Abby Xu, M. M
+* Contributors: AAlon, Abby Xu, M. M, Miaofei Mei, Ragha Prasad
 
 1.0.0 (2019-03-20)
 ------------------
