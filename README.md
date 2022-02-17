@@ -1,3 +1,26 @@
+## health_metric_collector (melodic) - 2.0.3-1
+
+The packages in the `health_metric_collector` repository were released into the `melodic` distro by running `/usr/local/bin/bloom-release health_metric_collector --track melodic --rosdistro melodic -e` on `Thu, 17 Feb 2022 05:31:44 -0000`
+
+The `health_metric_collector` package was released.
+
+Version of package(s) in repository `health_metric_collector`:
+
+- upstream repository: https://github.com/jikawa-az/health-metrics-collector-ros1.git
+- release repository: https://github.com/aws-gbp/health_metric_collector-release.git
+- rosdistro version: `2.0.2-1`
+- old version: `2.0.2-1`
+- new version: `2.0.3-1`
+
+Versions of tools used:
+
+- bloom version: `0.10.7`
+- catkin_pkg version: `0.4.23`
+- rosdep version: `0.20.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## health_metric_collector (melodic) - 2.0.2-1
 
 The packages in the `health_metric_collector` repository were released into the `melodic` distro by running `/usr/local/bin/bloom-release health_metric_collector --track melodic --rosdistro melodic -e` on `Sat, 28 Mar 2020 00:06:20 -0000`
